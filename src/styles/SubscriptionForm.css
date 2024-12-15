@@ -1,0 +1,106 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    font-family: Arial, sans-serif;
+    color: #fff;
+}
+
+.subscription-form-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.subscription-form-container h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #ffd700;
+    margin-bottom: 20px;
+}
+
+.subscription-form-container p {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.subscription-form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.subscription-form-container label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffd700;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.subscription-form-container input {
+    padding: 10px;
+    width: 96%;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #f9f9f9;
+    color: #333;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.subscription-form-container input:focus {
+    border-color: #ffd700;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+    outline: none;
+}
+
+.subscription-form-container button {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    background-color: #ffd700;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.subscription-form-container button:hover {
+    background-color: #f0c500;
+    transform: scale(1.05);
+}
+
+.subscription-form-container button:active {
+    background-color: #e0b000;
+    transform: scale(0.95);
+}
+
+.payment-success {
+    text-align: center;
+    color: #28a745;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.payment-success h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #ffd700;
+}
+
+.payment-success p {
+    font-size: 1.2rem;
+    color: #fff;
+}

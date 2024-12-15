@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import '../styles/CourseList.css';
 
@@ -6,6 +7,7 @@ function CourseList() {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -34,7 +36,12 @@ function CourseList() {
                         <h2 className="course-title">{course.title}</h2>
                         <p className="course-description">{course.description}</p>
                         <div className="course-actions">
-                            <button>Перейти к курсу</button>
+                            <button
+                                onClick={() => navigate(`/courses/${course.id}`)}
+                                className="course-view-button"
+                            >
+                                Перейти к курсу
+                            </button>
                         </div>
                     </div>
                 ))}

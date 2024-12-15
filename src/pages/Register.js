@@ -1,7 +1,7 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../services/api';
+import '../styles/Register.css';
 
 function Register() {
     const [name, setName] = useState('');
@@ -17,7 +17,7 @@ function Register() {
                 name,
                 email,
                 password,
-                is_active: true // Add is_active field
+                is_active: true,
             });
             navigate('/login');
         } catch (err) {
@@ -30,10 +30,10 @@ function Register() {
     };
 
     return (
-        <div>
+        <div className="register-container">
             <h1>Register</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <form onSubmit={handleSubmit}>
+            {error && <p className="error-message">{error}</p>}
+            <form onSubmit={handleSubmit} className="register-form">
                 <label>
                     Name:
                     <input
@@ -43,7 +43,6 @@ function Register() {
                         required
                     />
                 </label>
-                <br />
                 <label>
                     Email:
                     <input
@@ -53,7 +52,6 @@ function Register() {
                         required
                     />
                 </label>
-                <br />
                 <label>
                     Password:
                     <input
@@ -63,7 +61,6 @@ function Register() {
                         required
                     />
                 </label>
-                <br />
                 <button type="submit">Register</button>
             </form>
         </div>

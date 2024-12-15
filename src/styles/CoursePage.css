@@ -1,0 +1,128 @@
+.course-page-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: #fff;
+    min-height: 100vh;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.course-description {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #ffd700;
+    text-align: center;
+}
+
+.articles-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+.article-item {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.article-link {
+    padding: 10px 20px;
+    background: #ffd700;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+}
+
+.article-link:hover {
+    background: #f0c500;
+}
+
+.article-disabled {
+    color: #ccc;
+    font-size: 1rem;
+}
+
+.purchase-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.subscription-button,
+.purchase-button {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    color: #fff;
+    background: #32cd32;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    width: 250px;
+}
+
+.subscription-button:hover,
+.purchase-button:hover {
+    background: #28a745;
+    transform: scale(1.05);
+}
+
+.subscription-button:active,
+.purchase-button:active {
+    background: #1e7a32;
+    transform: scale(0.95);
+}
+
+.form-container {
+    padding: 20px;
+    max-width: 500px;
+    margin: 50px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.form-container h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.form-container p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.form-submit-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.form-submit-button:hover {
+    background: #0056b3;
+}

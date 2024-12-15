@@ -1,0 +1,173 @@
+.dashboard-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: #fff;
+    min-height: 100vh;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    color: #fff;
+}
+
+section {
+    margin-bottom: 40px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+p {
+    font-size: 1rem;
+    margin: 5px 0;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.subscription-item,
+.course-item {
+    margin-bottom: 15px;
+}
+
+.subscription-cancel-button,
+.course-view-button {
+    align-self: flex-start;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.subscription-cancel-button:hover {
+    background-color: #ffe066;.dashboard-container {
+        padding: 20px;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to right, #6a11cb, #2575fc);
+        color: #fff;
+        min-height: 100vh;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        color: #fff;
+    }
+
+    section {
+        margin-bottom: 40px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        color: #fff;
+    }
+
+    p {
+        font-size: 1rem;
+        margin: 5px 0;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    li {
+        padding: 15px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .subscription-item,
+    .course-item {
+        margin-bottom: 15px;
+    }
+
+    .subscription-cancel-button,
+    .course-view-button {
+        align-self: flex-start;
+        padding: 10px 20px;
+        font-size: 1rem;
+        background-color: #f44336;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .subscription-cancel-button:hover {
+        background-color: #ffe066;
+    }
+
+    .course-view-button {
+        background-color: #fff;
+        color: #2575fc;
+    }
+
+    .course-view-button:hover {
+        background-color: #d3d3d3;
+    }
+
+    .dashboard-loading,
+    .dashboard-error {
+        text-align: center;
+        font-size: 1.5rem;
+        color: #ffd700;
+    }
+
+  
+}
+
+.course-view-button {
+    background-color: #fff;
+    color: #2575fc;
+}
+
+.course-view-button:hover {
+    background-color: #d3d3d3;
+}
+
+.dashboard-loading,
+.dashboard-error {
+    text-align: center;
+    font-size: 1.5rem;
+    color: black;
+}

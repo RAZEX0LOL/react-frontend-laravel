@@ -1,0 +1,36 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: #fff;
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .login-button {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    background-color: #fff;
+    color: #2575fc;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .login-button:hover {
+    background-color: #d3d3d3;
+  }

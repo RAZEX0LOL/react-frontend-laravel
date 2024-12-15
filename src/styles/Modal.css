@@ -1,0 +1,123 @@
+/* Задний фон модального окна */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Полупрозрачный чёрный фон */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Контент модального окна */
+.modal-content {
+    position: relative;
+    background: rgba(255, 255, 255, 0.1); /* Полупрозрачный белый фон */
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    color: #fff;
+    animation: modal-fade-in 0.3s ease-in-out;
+}
+
+/* Анимация появления модального окна */
+@keyframes modal-fade-in {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Заголовок в модальном окне */
+.modal-content h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+/* Метки (label) для полей ввода */
+.modal-content label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    color: #fff;
+    text-align: left;
+}
+
+/* Поля ввода */
+.modal-content input {
+    width: 90%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+/* Контейнер для кнопок */
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+/* Кнопка сохранения */
+.save-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.save-button:hover {
+    background-color: #45a049;
+}
+
+/* Кнопка отмены */
+.cancel-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cancel-button:hover {
+    background-color: #e53935;
+}
+
+/* Кнопка закрытия (крестик) */
+.modal-close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #fff;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.modal-close-button:hover {
+    color: #ff6b6b; /* Красный цвет при наведении */
+}

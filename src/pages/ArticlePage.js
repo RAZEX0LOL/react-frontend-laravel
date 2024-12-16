@@ -27,13 +27,18 @@ function ArticlePage() {
     if (loading) return <div className="article-page-loading">Загрузка статьи...</div>;
     if (error) return <div className="article-page-error">Ошибка: {error}</div>;
 
+    const createMarkup = (htmlContent) => ({ __html: htmlContent });
+
     return (
         <div className="article-page-container">
             <h1 className="article-title">{article.title}</h1>
             <p className="article-meta">
-                Часть курса: <strong>{article.course.title}</strong>
+                Часть курса: <strong>{article.course?.title || `Курс ID: ${article.course_id}`}</strong>
             </p>
-            <div className="article-content">{article.content}</div>
+            <div
+                className="article-content"
+                dangerouslySetInnerHTML={createMarkup(article.content)}
+            ></div>
             <Link to={`/courses/${article.course_id}`} className="back-to-course">
                 Вернуться к курсу
             </Link>

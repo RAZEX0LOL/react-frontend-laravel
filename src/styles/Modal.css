@@ -5,7 +5,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8); /* Полупрозрачный чёрный фон */
+    background: rgba(0, 0, 0, 0.7); /* Полупрозрачный темный фон */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,109 +15,146 @@
 /* Контент модального окна */
 .modal-content {
     position: relative;
-    background: rgba(255, 255, 255, 0.1); /* Полупрозрачный белый фон */
-    padding: 20px;
-    border-radius: 10px;
-    width: 1200px;
-    max-width: 90%;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    color: #fff;
-    animation: modal-fade-in 0.3s ease-in-out;
+    background: linear-gradient(145deg, rgba(30, 30, 30, 0.95), rgba(50, 50, 50, 0.95)); /* Градиентный темный фон */
+    padding: 30px;
+    border-radius: 15px;
+    width: 800px;
+    max-width: 95%;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    text-align: left;
+    color: #f1f1f1;
+    animation: modal-slide-in 0.4s ease-out;
+    font-family: 'Arial', sans-serif;
 }
 
 /* Анимация появления модального окна */
-@keyframes modal-fade-in {
+@keyframes modal-slide-in {
     from {
         opacity: 0;
-        transform: scale(0.9);
+        transform: translateY(-50px);
     }
     to {
         opacity: 1;
-        transform: scale(1);
+        transform: translateY(0);
     }
 }
 
 /* Заголовок в модальном окне */
 .modal-content h2 {
-    font-size: 1.8rem;
-    margin-bottom: 20px;
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #ffcc00;
 }
 
 /* Метки (label) для полей ввода */
 .modal-content label {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     font-size: 1rem;
-    color: #fff;
-    text-align: left;
+    font-weight: bold;
+    color: #ccc;
 }
 
 /* Поля ввода */
-.modal-content input {
-    width: 90%;
-    padding: 10px;
+.modal-content input,
+.modal-content textarea {
+    width: 100%;
+    padding: 12px;
     margin-top: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
     font-size: 1rem;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
     color: #fff;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modal-content input:focus,
+.modal-content textarea:focus {
+    border-color: #ffcc00;
+    box-shadow: 0 0 8px rgba(255, 204, 0, 0.5);
 }
 
 /* Контейнер для кнопок */
 .modal-actions {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     margin-top: 20px;
-    gap: 10px;
+    gap: 15px;
 }
 
 /* Кнопка сохранения */
 .save-button {
-    padding: 10px 20px;
+    padding: 12px 25px;
     font-size: 1rem;
-    background-color: #4CAF50;
+    background-color: #28a745; /* Зеленый */
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .save-button:hover {
-    background-color: #45a049;
+    background-color: #218838; /* Более темный зеленый */
+    transform: scale(1.05);
+}
+
+.save-button:active {
+    transform: scale(0.95);
 }
 
 /* Кнопка отмены */
 .cancel-button {
-    padding: 10px 20px;
+    padding: 12px 25px;
     font-size: 1rem;
-    background-color: #f44336;
+    background-color: #dc3545; /* Красный */
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .cancel-button:hover {
-    background-color: #e53935;
+    background-color: #c82333; /* Более темный красный */
+    transform: scale(1.05);
+}
+
+.cancel-button:active {
+    transform: scale(0.95);
 }
 
 /* Кнопка закрытия (крестик) */
 .modal-close-button {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 15px;
+    right: 15px;
     background: none;
     border: none;
     font-size: 1.5rem;
-    color: #fff;
+    color: #ffcc00;
     cursor: pointer;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, transform 0.2s ease;
 }
 
 .modal-close-button:hover {
-    color: #ff6b6b; /* Красный цвет при наведении */
+    color: #ff9900;
+    transform: scale(1.2);
+}
+
+/* Дополнительные стили для текста */
+.modal-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 10px 0;
+    color: #ddd;
+}
+
+.modal-content textarea {
+    height: 100px;
+    resize: vertical;
 }

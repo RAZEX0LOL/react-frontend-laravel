@@ -20,9 +20,9 @@ function AdminPanel() {
     const [isAdding, setIsAdding] = useState(false);
 
     const templates = {
-        users: { name: '', email: '' , password: '', is_active: true},
+        users: { name: '', email: '', password: '', is_active: true },
         courses: { title: '', description: '', price: 0, is_active: true, is_subscription_based: true },
-        articles: {course_id: '',  title: '', content: '' },
+        articles: { course_id: '', title: '', content: '' },
         subscriptions: { user_id: '', subscription_type_id: '', start_date: '', end_date: '' },
         subscriptionTypes: { name: '', description: '', price: 0, is_active: false },
     };
@@ -156,51 +156,50 @@ function AdminPanel() {
             <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
                 <h2>{isAdding ? 'Add Item' : 'Edit Item'}</h2>
                 {editData &&
-    Object.keys(editData).map((field) => (
-        <label key={field} className="modal-input-label">
-            {field}:
-            {field === 'content' ? (
-                <textarea
-                    name={field}
-                    value={editData[field]}
-                    onChange={(e) => {
-                        const { name, value } = e.target;
-                        setEditData((prev) => ({
-                            ...prev,
-                            [name]: value,
-                        }));
-                    }}
-                    className="modal-textarea"
-                />
-            ) : (
-                <input
-                    type={
-                        typeof editData[field] === 'boolean'
-                            ? 'checkbox'
-                            : field.includes('date')
-                            ? 'date'
-                            : 'text'
-                    }
-                    name={field}
-                    value={
-                        typeof editData[field] === 'boolean'
-                            ? undefined
-                            : editData[field]
-                    }
-                    checked={
-                        typeof editData[field] === 'boolean' ? editData[field] : undefined
-                    }
-                    onChange={(e) => {
-                        const { name, value, type, checked } = e.target;
-                        setEditData((prev) => ({
-                            ...prev,
-                            [name]: type === 'checkbox' ? checked : value,
-                        }));
-                    }}
-                />
-            )}
-        </label>
-    ))}
+                    Object.keys(editData).map((field) => (
+                        <label key={field} className="modal-input-label">
+                            {field}:
+                            {field === 'content' ? (
+                                <textarea
+                                    name={field}
+                                    value={editData[field]}
+                                    onChange={(e) => {
+                                        const { name, value } = e.target;
+                                        setEditData((prev) => ({
+                                            ...prev,
+                                            [name]: value,
+                                        }));
+                                    }}
+                                    className="modal-textarea"
+                                    rows="5"
+                                />
+                            ) : (
+                                <input
+                                    type={
+                                        typeof editData[field] === 'boolean'
+                                            ? 'checkbox'
+                                            : field.includes('date')
+                                            ? 'date'
+                                            : 'text'
+                                    }
+                                    name={field}
+                                    value={
+                                        typeof editData[field] === 'boolean' ? undefined : editData[field]
+                                    }
+                                    checked={
+                                        typeof editData[field] === 'boolean' ? editData[field] : undefined
+                                    }
+                                    onChange={(e) => {
+                                        const { name, value, type, checked } = e.target;
+                                        setEditData((prev) => ({
+                                            ...prev,
+                                            [name]: type === 'checkbox' ? checked : value,
+                                        }));
+                                    }}
+                                />
+                            )}
+                        </label>
+                    ))}
                 <button className="modal-save-button" onClick={handleSave}>
                     Save
                 </button>

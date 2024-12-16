@@ -6,7 +6,6 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
-import Admin from './pages/Admin';
 import CourseList from './pages/CourseList';
 import ArticleManagement from './pages/ArticleManagement';
 import SubscriptionManagement from './pages/SubscriptionManagement';
@@ -26,7 +25,6 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/admin" element={<Admin />} />
                 <Route path="/courses" element={<CourseList />} />
                 <Route path="/courses/:courseId" element={<CoursePage />} />
                 <Route path="/articles/:articleId" element={<ArticlePage />} />

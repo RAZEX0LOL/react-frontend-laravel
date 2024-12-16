@@ -62,6 +62,9 @@ function Register() {
                     />
                 </label>
                 <button type="submit">Register</button>
+                <p className="register-link">
+                    Есть аккаунт? <span onClick={() => navigate('/login')}>Войти</span>
+                </p>
             </form>
         </div>
     );

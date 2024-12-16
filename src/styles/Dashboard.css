@@ -153,7 +153,7 @@ li {
         color: #ffd700;
     }
 
-  
+
 }
 
 .course-view-button {
@@ -170,4 +170,19 @@ li {
     text-align: center;
     font-size: 1.5rem;
     color: black;
+}
+
+.logout-button {
+    margin-left: 10px;
+    background-color: #ff4d4f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.logout-button:hover {
+    background-color: #ff7875;
 }

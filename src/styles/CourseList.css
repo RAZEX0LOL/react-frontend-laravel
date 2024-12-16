@@ -51,7 +51,7 @@ h1 {
 
 .course-actions {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 1rem;
 }
 
@@ -69,4 +69,24 @@ h1 {
 .course-actions button:hover {
     background-color: #d3d3d3;
     transform: scale(1.05);
+}
+
+.dashboard-button-container {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.dashboard-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.dashboard-button:hover {
+    background-color: #0056b3;
 }

@@ -2,35 +2,108 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
+    justify-content: space-between;
+    min-height: 100vh;
     background: linear-gradient(to right, #6a11cb, #2575fc);
-    color: #fff;
-    font-family: Arial, sans-serif;
+    color: #ffffff;
+    font-family: 'Arial', sans-serif;
     text-align: center;
-  }
+    padding: 20px;
+}
 
-  h1 {
-    font-size: 3rem;
+.home-header h1 {
+    font-size: 3.5rem;
     margin-bottom: 1rem;
-  }
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
 
-  p {
+.home-header p {
     font-size: 1.5rem;
     margin-bottom: 2rem;
-  }
+    line-height: 1.5;
+    max-width: 800px;
+    margin: 0 auto;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
 
-  .login-button {
-    padding: 1rem 2rem;
+.home-content {
+    width: 100%;
+    max-width: 900px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.features-section, .benefits-section {
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+.features-section h2, .benefits-section h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.features-list, .benefits-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.features-list li, .benefits-list li {
+    margin-bottom: 10px;
     font-size: 1.2rem;
-    background-color: #fff;
-    color: #2575fc;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
+    color: #f0f0f0;
+    display: flex;
+    align-items: center;
+}
 
-  .login-button:hover {
-    background-color: #d3d3d3;
-  }
+.features-list li::before, .benefits-list li::before {
+    content: '✔';
+    color: #00ff00;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* Кнопка входа */
+.action-section {
+    margin-top: 30px;
+}
+
+.login-button {
+    padding: 1rem 2.5rem;
+    font-size: 1.3rem;
+    font-weight: bold;
+    background-color: #ffffff;
+    color: #0078ff;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.login-button:hover {
+    background-color: #e6e6e6;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+.login-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.home-footer {
+    margin-top: 40px;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.home-footer p {
+    margin: 0;
+}

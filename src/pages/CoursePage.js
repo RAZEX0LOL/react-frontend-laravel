@@ -15,15 +15,12 @@ function CoursePage() {
     useEffect(() => {
         const fetchCourseData = async () => {
             try {
-                // Получаем данные текущего курса
                 const courseResponse = await api.get(`/courses/${courseId}`);
                 setCourse(courseResponse.data);
 
-                // Получаем статьи курса
                 const articlesResponse = await api.get(`/subarticles/${courseId}`);
                 setArticles(articlesResponse.data);
 
-                // Получаем список доступных курсов
                 const userCoursesResponse = await api.get('https://fucklaravel.ru/api/mycourses');
                 setUserCourses(userCoursesResponse.data); // Сохраняем массив ID курсов
             } catch (err) {
@@ -44,7 +41,6 @@ function CoursePage() {
         navigate(`/purchase/form`, { state: { course } });
     };
 
-    // Проверяем, доступен ли курс пользователю
     const hasAccess = userCourses.includes(parseInt(courseId));
 
     if (loading) return <div className="course-page-loading">Загрузка курса...</div>;
@@ -52,6 +48,10 @@ function CoursePage() {
 
     return (
         <div className="course-page-container">
+            <button onClick={() => navigate('/courses')} className="back-button">
+                ← Назад к курсам
+            </button>
+
             <h1>{course.title}</h1>
             <p className="course-description">{course.description}</p>
 

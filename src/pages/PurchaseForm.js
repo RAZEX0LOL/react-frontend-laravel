@@ -16,12 +16,11 @@ function PurchaseForm() {
     const [loading, setLoading] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
 
-    // Получение `user_id` из API
     useEffect(() => {
         const fetchUserId = async () => {
             try {
-                const response = await api.get('/myid'); // Запрос на /myid
-                setUserId(response.data); // Предполагается, что ответ содержит {1,}
+                const response = await api.get('/myid');
+                setUserId(response.data);
             } catch (error) {
                 console.error('Ошибка при получении user_id:', error.response?.data || error);
                 alert('Не удалось получить данные пользователя.');
@@ -31,23 +30,23 @@ function PurchaseForm() {
         fetchUserId();
     }, []);
 
-    const validateCardNumber = (number) => /^\d{16}$/.test(number); // 16 цифр
+    const validateCardNumber = (number) => /^\d{16}$/.test(number);
     const validateExpiryDate = (date) => {
         const [month, year] = date.split('/');
-        const isValidFormat = /^\d{2}\/\d{2}$/.test(date); // Формат MM/YY
-        const isValidMonth = month >= 1 && month <= 12; // Проверка месяца
-        const currentYear = new Date().getFullYear() % 100; // Последние 2 цифры текущего года
-        const isValidYear = year >= currentYear; // Год >= текущего
+        const isValidFormat = /^\d{2}\/\d{2}$/.test(date);
+        const isValidMonth = month >= 1 && month <= 12;
+        const currentYear = new Date().getFullYear() % 100;
+        const isValidYear = year >= currentYear;
         return isValidFormat && isValidMonth && isValidYear;
     };
-    const validateCvc = (code) => /^\d{3}$/.test(code); // 3 цифры
+    const validateCvc = (code) => /^\d{3}$/.test(code);
 
     const handleExpiryDateChange = (e) => {
-        let value = e.target.value.replace(/[^0-9]/g, ''); // Только цифры
+        let value = e.target.value.replace(/[^0-9]/g, '');
         if (value.length > 2) {
-            value = value.slice(0, 2) + '/' + value.slice(2); // Добавляем слэш после двух цифр
+            value = value.slice(0, 2) + '/' + value.slice(2);
         }
-        setExpiryDate(value.slice(0, 5)); // Ограничиваем длину до 5 символов
+        setExpiryDate(value.slice(0, 5));
     };
 
     const handleSubmit = async (e) => {
@@ -65,25 +64,22 @@ function PurchaseForm() {
             try {
                 setLoading(true);
 
-                // Проверка наличия `user_id`
                 if (!userId) {
                     alert('Ошибка: Не удалось определить пользователя.');
                     return;
                 }
 
-                // Отправка запроса на покупку курса
-                const purchaseDate = new Date().toISOString().split('T')[0]; // Текущая дата в формате YYYY-MM-DD
+                const purchaseDate = new Date().toISOString().split('T')[0];
                 await api.post('/course-purchases', {
-                    user_id: userId, // Используем `user_id`, полученный из /myid
-                    course_id: course.id, // ID курса
-                    purchase_date: purchaseDate, // Дата покупки
-                    price_paid: course.price, // Цена курса
+                    user_id: userId,
+                    course_id: course.id,
+                    purchase_date: purchaseDate,
+                    price_paid: course.price,
                 });
 
-                // Успешная обработка
                 setSuccessMessage(`Курс "${course.title}" успешно приобретён!`);
                 setTimeout(() => {
-                    navigate(`/courses/${course.id}`); // Перенаправление на страницу курса
+                    navigate(`/courses/${course.id}`);
                 }, 3000);
             } catch (error) {
                 console.error('Ошибка при покупке курса:', error.response?.data || error);

@@ -10,7 +10,6 @@ function Payment() {
     const handlePayment = async () => {
         setLoading(true);
         setTimeout(() => {
-            // Симулируем успешную оплату
             alert(`Payment successful for ${purchaseType === 'course' ? 'course' : 'subscription'}`);
             navigate(`/courses/${courseId}`, { state: { purchased: true } });
         }, 2000);

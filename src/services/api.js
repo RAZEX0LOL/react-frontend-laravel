@@ -19,7 +19,6 @@ api.interceptors.request.use(
 );
 
 
-// Auth
 export const login = (email, password) => {
     return api.post('/access-token', { email, password });
 };
@@ -28,7 +27,6 @@ export const register = (name, email, password) => {
     return api.post('/usercus', { name, email, password });
 };
 
-// Articles
 export const fetchArticles = () => api.get('/articles');
 export const createArticle = (data) => {
     return api.post('/articles', {
@@ -46,7 +44,6 @@ export const updateArticle = (id, data) => {
 };
 export const deleteArticle = (id) => api.delete(`/articles/${id}`);
 
-// Courses
 export const fetchCourses = () => api.get('/courses');
 export const createCourse = (data) => {
     return api.post('/courses', {
@@ -68,7 +65,6 @@ export const updateCourse = (id, data) => {
 };
 export const deleteCourse = (id) => api.delete(`/courses/${id}`);
 
-// Course Purchases
 export const fetchCoursePurchases = () => api.get('/course-purchases');
 export const createCoursePurchase = (data) => {
     return api.post('/course-purchases', {
@@ -80,7 +76,6 @@ export const createCoursePurchase = (data) => {
 };
 export const deleteCoursePurchase = (id) => api.delete(`/course-purchases/${id}`);
 
-// Discounts
 export const fetchDiscounts = () => api.get('/discounts');
 export const createDiscount = (data) => {
     return api.post('/discounts', {
@@ -102,7 +97,6 @@ export const updateDiscount = (id, data) => {
 };
 export const deleteDiscount = (id) => api.delete(`/discounts/${id}`);
 
-// Payments
 export const fetchPayments = () => api.get('/payments');
 export const createPayment = (data) => {
     return api.post('/payments', {
@@ -115,7 +109,6 @@ export const createPayment = (data) => {
 };
 export const deletePayment = (id) => api.delete(`/payments/${id}`);
 
-// Subscription Cancellations
 export const fetchSubscriptionCancellations = () => api.get('/subscription-cancellations');
 export const createSubscriptionCancellation = (data) => {
     return api.post('/subscription-cancellations', {
@@ -127,7 +120,6 @@ export const createSubscriptionCancellation = (data) => {
 };
 export const deleteSubscriptionCancellation = (id) => api.delete(`/subscription-cancellations/${id}`);
 
-// Subscriptions
 export const fetchSubscriptions = () => api.get('/subscriptions');
 export const createSubscription = (data) => {
     return api.post('/subscriptions', {
@@ -149,7 +141,6 @@ export const updateSubscription = (id, data) => {
 };
 export const deleteSubscription = (id) => api.delete(`/subscriptions/${id}`);
 
-// Subscription Types
 export const fetchSubscriptionTypes = () => api.get('/subscription-types');
 export const createSubscriptionType = (data) => {
     return api.post('/subscription-types', {
@@ -169,7 +160,6 @@ export const updateSubscriptionType = (id, data) => {
 };
 export const deleteSubscriptionType = (id) => api.delete(`/subscription-types/${id}`);
 
-// Users
 export const fetchUsers = () => api.get('/usercus');
 export const createUser = (data) => {
     return api.post('/usercus', {

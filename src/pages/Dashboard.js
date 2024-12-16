@@ -14,20 +14,22 @@ function Dashboard() {
     const [editedUserData, setEditedUserData] = useState({ name: '', email: '', password: '' });
     const navigate = useNavigate();
 
-    // Функция для отмены подписки
+    const logout = () => {
+        localStorage.removeItem('authToken');
+        navigate('/login');
+    };
+
     const cancelSubscription = async (subscriptionId) => {
         try {
             const payload = {
-                subscription_id: subscriptionId, // ID подписки, которую нужно отменить
-                cancellation_date: new Date().toISOString().split('T')[0], // Текущая дата
-                reason: 'User requested cancellation', // Причина отмены
-                status: 'Pending', // Статус отмены
+                subscription_id: subscriptionId,
+                cancellation_date: new Date().toISOString().split('T')[0],
+                reason: 'User requested cancellation',
+                status: 'Pending',
             };
 
-            // Отправляем запрос на сервер
             const response = await api.post(`/subscription-cancellations`, payload);
 
-            // Убираем подписку из локального состояния
             setSubscriptions((prev) => prev.filter((sub) => sub.id !== subscriptionId));
 
             alert(response.data.message || 'Подписка успешно отменена.');
@@ -37,7 +39,6 @@ function Dashboard() {
         }
     };
 
-    // Получение данных пользователя и его подписок/покупок
     const fetchUserData = async () => {
         try {
             const myIdResponse = await api.get('/myid');
@@ -96,6 +97,12 @@ function Dashboard() {
 
     return (
         <div className="dashboard-container">
+            <button
+                onClick={() => navigate('/courses')}
+                className="back-button"
+            >
+                ← Назад к курсам
+            </button>
             <h1>Личный кабинет</h1>
 
             {/* Информация о пользователе */}
@@ -108,6 +115,12 @@ function Dashboard() {
                     className="edit-user-button"
                 >
                     Редактировать данные
+                </button>
+                <button
+                    onClick={logout}
+                    className="logout-button"
+                >
+                    Выйти из аккаунта
                 </button>
             </section>
 
@@ -154,7 +167,7 @@ function Dashboard() {
                                     </>
                                 )}
                                 <button
-                                    onClick={() => navigate(`/course/${purchase.id}`)}
+                                    onClick={() => navigate(`/courses/${purchase.id}`)}
                                     className="course-view-button"
                                 >
                                     Перейти к курсу

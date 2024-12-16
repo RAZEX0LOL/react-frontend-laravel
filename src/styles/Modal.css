@@ -1,18 +1,16 @@
-/* Задний фон модального окна */
 .modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.7); /* Полупрозрачный темный фон */
+    background: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
 }
 
-/* Контент модального окна */
 .modal-content {
     position: relative;
     background: linear-gradient(145deg, rgba(30, 30, 30, 0.95), rgba(50, 50, 50, 0.95)); /* Градиентный темный фон */
@@ -27,7 +25,6 @@
     font-family: 'Arial', sans-serif;
 }
 
-/* Анимация появления модального окна */
 @keyframes modal-slide-in {
     from {
         opacity: 0;
@@ -39,14 +36,12 @@
     }
 }
 
-/* Заголовок в модальном окне */
 .modal-content h2 {
     font-size: 2rem;
     margin-bottom: 15px;
     color: #ffcc00;
 }
 
-/* Метки (label) для полей ввода */
 .modal-content label {
     display: block;
     margin-bottom: 8px;
@@ -55,7 +50,6 @@
     color: #ccc;
 }
 
-/* Поля ввода */
 .modal-content input,
 .modal-content textarea {
     width: 100%;
@@ -76,7 +70,6 @@
     box-shadow: 0 0 8px rgba(255, 204, 0, 0.5);
 }
 
-/* Контейнер для кнопок */
 .modal-actions {
     display: flex;
     justify-content: flex-end;
@@ -84,7 +77,6 @@
     gap: 15px;
 }
 
-/* Кнопка сохранения */
 .save-button {
     padding: 12px 25px;
     font-size: 1rem;
@@ -106,7 +98,6 @@
     transform: scale(0.95);
 }
 
-/* Кнопка отмены */
 .cancel-button {
     padding: 12px 25px;
     font-size: 1rem;
@@ -128,7 +119,6 @@
     transform: scale(0.95);
 }
 
-/* Кнопка закрытия (крестик) */
 .modal-close-button {
     position: absolute;
     top: 15px;
@@ -146,7 +136,6 @@
     transform: scale(1.2);
 }
 
-/* Дополнительные стили для текста */
 .modal-content p {
     font-size: 1rem;
     line-height: 1.6;

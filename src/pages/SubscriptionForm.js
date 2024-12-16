@@ -16,12 +16,11 @@ function SubscriptionForm() {
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
 
-    // Получение user_id из /myid
     useEffect(() => {
         const fetchUserId = async () => {
             try {
                 const response = await api.get('/myid');
-                setUserId(response.data); // Предполагается, что возвращается ID пользователя
+                setUserId(response.data);
             } catch (error) {
                 console.error('Ошибка при получении user_id:', error.response?.data || error);
                 alert('Не удалось получить данные пользователя.');
@@ -31,33 +30,29 @@ function SubscriptionForm() {
         fetchUserId();
     }, []);
 
-    // Валидация полей формы
-    const validateCardNumber = (number) => /^\d{16}$/.test(number); // 16 цифр
+    const validateCardNumber = (number) => /^\d{16}$/.test(number);
     const validateExpiryDate = (date) => {
         const [month, year] = date.split('/');
-        const isValidFormat = /^\d{2}\/\d{2}$/.test(date); // Формат MM/YY
-        const isValidMonth = month >= 1 && month <= 12; // Проверка месяца
-        const currentYear = new Date().getFullYear() % 100; // Последние 2 цифры текущего года
-        const isValidYear = year >= currentYear; // Проверка года
+        const isValidFormat = /^\d{2}\/\d{2}$/.test(date);
+        const isValidMonth = month >= 1 && month <= 12;
+        const currentYear = new Date().getFullYear() % 100;
+        const isValidYear = year >= currentYear;
         return isValidFormat && isValidMonth && isValidYear;
     };
-    const validateCvc = (code) => /^\d{3}$/.test(code); // 3 цифры
+    const validateCvc = (code) => /^\d{3}$/.test(code);
 
-    // Обработка изменения поля срока действия карты
     const handleExpiryDateChange = (e) => {
-        let value = e.target.value.replace(/[^0-9]/g, ''); // Только цифры
+        let value = e.target.value.replace(/[^0-9]/g, '');
         if (value.length > 2) {
-            value = value.slice(0, 2) + '/' + value.slice(2); // Добавляем слэш после двух цифр
+            value = value.slice(0, 2) + '/' + value.slice(2);
         }
-        setExpiryDate(value.slice(0, 5)); // Ограничиваем длину до 5 символов
+        setExpiryDate(value.slice(0, 5));
     };
 
-    // Обработка отправки формы
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newErrors = {};
 
-        // Валидация полей
         if (!validateCardNumber(cardNumber)) newErrors.cardNumber = 'Номер карты должен содержать 16 цифр.';
         if (!validateExpiryDate(expiryDate)) newErrors.expiryDate = 'Срок действия карты должен быть в формате MM/YY.';
         if (!validateCvc(cvc)) newErrors.cvc = 'CVC должен содержать 3 цифры.';
@@ -73,25 +68,22 @@ function SubscriptionForm() {
                     return;
                 }
 
-                // Подготовка данных для создания подписки
                 const currentDate = new Date();
-                const startDate = currentDate.toISOString().split('T')[0]; // Сегодняшняя дата
+                const startDate = currentDate.toISOString().split('T')[0];
                 const endDate = new Date(currentDate.setMonth(currentDate.getMonth() + 1))
                     .toISOString()
-                    .split('T')[0]; // Дата через месяц
+                    .split('T')[0];
 
-                // Отправка запроса на создание подписки
                 await createSubscription({
                     user_id: userId,
-                    subscription_type_id: subscription.id, // ID выбранной подписки
-                    start_date: startDate, // Дата начала
-                    end_date: endDate, // Дата окончания
-                    status: 'Active', // Замените на ожидаемое значение, если требуется
+                    subscription_type_id: subscription.id,
+                    start_date: startDate,
+                    end_date: endDate,
+                    status: 'Active',
                 });
 
-                // Уведомление об успешной оплате
                 alert('Подписка успешно оформлена!');
-                navigate('/subscriptions'); // Перенаправление на страницу подписок
+                navigate('/courses'); // Перенаправление на страницу курсов
             } catch (error) {
                 console.error('Ошибка при создании подписки:', error.response?.data || error);
                 const apiErrors = error.response?.data?.errors;

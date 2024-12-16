@@ -1,4 +1,3 @@
-/* Общие стили контейнера */
 .admin-panel-container {
     padding: 20px;
     font-family: 'Roboto', Arial, sans-serif;
@@ -8,7 +7,6 @@
     box-sizing: border-box;
 }
 
-/* Заголовок */
 h1 {
     text-align: center;
     font-size: 3rem;
@@ -17,7 +15,6 @@ h1 {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* Секции */
 .admin-section {
     margin-bottom: 30px;
     padding: 20px;
@@ -31,7 +28,6 @@ h1 {
     transform: translateY(-5px);
 }
 
-/* Заголовок секции */
 h2 {
     font-size: 2rem;
     margin-bottom: 20px;
@@ -40,7 +36,6 @@ h2 {
     padding-bottom: 10px;
 }
 
-/* Список элементов */
 .admin-list {
     list-style: none;
     padding: 0;
@@ -63,13 +58,11 @@ h2 {
     background: rgba(255, 255, 255, 0.2);
 }
 
-/* Блок кнопок в элементах */
 .admin-buttons {
     display: flex;
     gap: 10px;
 }
 
-/* Кнопки */
 button {
     font-family: 'Roboto', Arial, sans-serif;
     font-size: 1rem;
@@ -85,31 +78,28 @@ button:active {
     transform: scale(0.95);
 }
 
-/* Кнопка добавления */
 .admin-add-button {
     display: inline-block;
     margin-bottom: 20px;
-    background-color: #28a745; /* Зелёный */
+    background-color: #28a745;
     color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .admin-add-button:hover {
-    background-color: #218838; /* Более насыщенный зелёный */
+    background-color: #218838;
 }
 
-/* Кнопка удаления */
 .admin-delete-button {
-    background-color: #e63946; /* Красный */
+    background-color: #e63946;
     color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .admin-delete-button:hover {
-    background-color: #d62828; /* Темнее красный */
+    background-color: #d62828;
 }
 
-/* Кнопка редактирования */
 .admin-edit-button {
     background-color: #007bff; /* Синий */
     color: #fff;
@@ -117,10 +107,9 @@ button:active {
 }
 
 .admin-edit-button:hover {
-    background-color: #0056b3; /* Более тёмный синий */
+    background-color: #0056b3;
 }
 
-/* Ввод и текстовые поля */
 input,
 textarea,
 select {
@@ -144,13 +133,11 @@ select:focus {
     outline: none;
 }
 
-/* Текстовые поля */
 textarea {
     resize: vertical;
     height: 150px;
 }
 
-/* Метки для полей */
 .modal-input-label {
     display: flex;
     flex-direction: column;
@@ -159,7 +146,6 @@ textarea {
     color: #ffcc00;
 }
 
-/* Модальное окно */
 .modal {
     background: rgba(0, 0, 0, 0.8);
     border-radius: 10px;
@@ -168,7 +154,6 @@ textarea {
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
 }
 
-/* Модальные кнопки */
 .modal-save-button {
     background-color: #ffd700;
     color: #333;

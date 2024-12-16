@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import api from '../services/api';
 import Modal from '../components/Modal';
 import '../styles/AdminPanel.css';
+import {useNavigate} from "react-router-dom";
 
 function AdminPanel() {
     const [data, setData] = useState({
@@ -18,6 +19,7 @@ function AdminPanel() {
     const [currentEdit, setCurrentEdit] = useState(null);
     const [editData, setEditData] = useState({});
     const [isAdding, setIsAdding] = useState(false);
+    const navigate= useNavigate();
 
     const templates = {
         users: { name: '', email: '', password: '', is_active: true },
@@ -58,6 +60,11 @@ function AdminPanel() {
 
         fetchData();
     }, []);
+
+    const logout = () => {
+        localStorage.removeItem('authToken');
+        navigate('/login');
+    };
 
     const handleAdd = (key) => {
         setIsAdding(true);
@@ -118,6 +125,12 @@ function AdminPanel() {
     return (
         <div className="admin-panel-container">
             <h1>Admin Panel</h1>
+            <button
+                onClick={logout}
+                className="logout-button"
+            >
+                Выйти из аккаунта
+            </button>
             {Object.entries(data).map(([key, items]) => (
                 <section key={key} className="admin-section">
                     <h2>{key.charAt(0).toUpperCase() + key.slice(1)}</h2>

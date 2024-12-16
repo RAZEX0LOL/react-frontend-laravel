@@ -21,15 +21,14 @@ function Login() {
 
             const userId = userResponse.data;
 
-            // Получаем роль пользователя для проверки
             const userDetails = await api.get(`/usercus/${userId}`, {
                 headers: { Authorization: `Bearer ${response.data.token}` },
             });
 
             if (userDetails.data.role === 'admin') {
-                navigate('/admin-panel'); // Переход на админ-панель
+                navigate('/admin-panel');
             } else {
-                navigate('/courses'); // Переход на страницу со всеми курсами
+                navigate('/courses');
             }
         } catch (err) {
             setError('Неверные учетные данные. Попробуйте еще раз.');

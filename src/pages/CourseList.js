@@ -9,6 +9,9 @@ function CourseList() {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
+    // Проверяем, авторизован ли пользователь
+    const isUserLoggedIn = !!localStorage.getItem('authToken');
+
     useEffect(() => {
         const fetchCourses = async () => {
             try {
@@ -29,6 +32,16 @@ function CourseList() {
 
     return (
         <div className="courses-container">
+            {isUserLoggedIn && (
+                <div className="dashboard-button-container">
+                    <button
+                        onClick={() => navigate('/dashboard')}
+                        className="dashboard-button"
+                    >
+                        Личный кабинет
+                    </button>
+                </div>
+            )}
             <h1>Все курсы</h1>
             <div className="courses-list">
                 {courses.map((course) => (

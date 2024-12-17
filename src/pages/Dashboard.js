@@ -105,7 +105,7 @@ function Dashboard() {
             </button>
             <h1>Личный кабинет</h1>
 
-            {/* Информация о пользователе */}
+
             <section className="user-info-section">
                 <h2>Информация о пользователе</h2>
                 <p><strong>Имя:</strong> {userData.name}</p>
@@ -124,7 +124,7 @@ function Dashboard() {
                 </button>
             </section>
 
-            {/* Подписки */}
+
             <section className="subscriptions-section">
                 <h2>Ваши подписки</h2>
                 {subscriptions.length > 0 ? (
@@ -149,7 +149,7 @@ function Dashboard() {
                 )}
             </section>
 
-            {/* Курсы */}
+
             <section className="courses-section">
                 <h2>Ваши курсы</h2>
                 {purchases.length > 0 ? (
@@ -180,7 +180,7 @@ function Dashboard() {
                 )}
             </section>
 
-            {/* Модальное окно для редактирования данных */}
+
             <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
                 <h2>Редактировать данные</h2>
                 <label>

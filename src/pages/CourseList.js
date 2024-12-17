@@ -9,7 +9,6 @@ function CourseList() {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    // Проверяем, авторизован ли пользователь
     const isUserLoggedIn = !!localStorage.getItem('authToken');
 
     useEffect(() => {

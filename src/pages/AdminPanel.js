@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import api from '../services/api';
 import Modal from '../components/Modal';
 import '../styles/AdminPanel.css';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 function AdminPanel() {
     const [data, setData] = useState({
@@ -19,14 +19,34 @@ function AdminPanel() {
     const [currentEdit, setCurrentEdit] = useState(null);
     const [editData, setEditData] = useState({});
     const [isAdding, setIsAdding] = useState(false);
-    const navigate= useNavigate();
+    const navigate = useNavigate();
 
     const templates = {
         users: { name: '', email: '', password: '', is_active: true },
-        courses: { title: '', description: '', price: 0, is_active: true, is_subscription_based: true },
+        courses: { title: '', description: '', price: 0, is_active: true, subscription_type_name: '' },
         articles: { course_id: '', title: '', content: '' },
-        subscriptions: { user_id: '', subscription_type_id: '', start_date: '', end_date: '' },
+        subscriptions: {
+            user_name: '',
+            subscription_type_name: '',
+            start_date: '',
+            end_date: '',
+            status: 'Active',
+        },
         subscriptionTypes: { name: '', description: '', price: 0, is_active: false },
+    };
+
+    const fieldTranslations = {
+        users: { name: 'Имя', email: 'Электронная почта', password: 'Пароль', is_active: 'Активен' },
+        courses: { title: 'Название', description: 'Описание', price: 'Цена', is_active: 'Активен', subscription_type_name: 'Тип подписки' },
+        articles: { course_id: 'Курс', title: 'Название статьи', content: 'Содержание' },
+        subscriptions: {
+            user_name: 'Пользователь',
+            subscription_type_name: 'Тип подписки',
+            start_date: 'Дата начала',
+            end_date: 'Дата окончания',
+            status: 'Статус',
+        },
+        subscriptionTypes: { name: 'Название', description: 'Описание', price: 'Цена', is_active: 'Активен' },
     };
 
     const endpoints = {
@@ -41,18 +61,18 @@ function AdminPanel() {
         const fetchData = async () => {
             try {
                 const responses = await Promise.all(
-                    Object.entries(endpoints).map(([key, endpoint]) =>
-                        api.get(endpoint)
-                    )
+                    Object.entries(endpoints).map(([key, endpoint]) => api.get(endpoint))
                 );
+
                 const newData = responses.reduce((acc, res, idx) => {
                     const key = Object.keys(endpoints)[idx];
                     acc[key] = res.data;
                     return acc;
                 }, {});
+
                 setData(newData);
             } catch (err) {
-                setError('Failed to load admin data');
+                setError('Не удалось загрузить данные админ-панели');
             } finally {
                 setLoading(false);
             }
@@ -83,81 +103,157 @@ function AdminPanel() {
     const handleDelete = async (key, id) => {
         try {
             await api.delete(`${endpoints[key]}/${id}`);
+            const response = await api.get(endpoints[key]);
             setData((prev) => ({
                 ...prev,
-                [key]: prev[key].filter((item) => item.id !== id),
+                [key]: response.data,
             }));
         } catch (err) {
-            alert('Failed to delete the item');
+            alert('Не удалось удалить элемент');
         }
     };
 
     const handleSave = async () => {
         try {
             const endpoint = endpoints[currentEdit];
+
+            if (currentEdit === 'subscriptions') {
+                const user = data.users.find((u) => u.name === editData.user_name);
+                const subscriptionType = data.subscriptionTypes.find(
+                    (s) => s.name === editData.subscription_type_name
+                );
+
+                if (user) editData.user_id = user.id;
+                if (subscriptionType) editData.subscription_type_id = subscriptionType.id;
+
+                delete editData.user_name;
+                delete editData.subscription_type_name;
+            }
+
             if (isAdding) {
-                const response = await api.post(endpoint, editData);
-                setData((prev) => ({
-                    ...prev,
-                    [currentEdit]: [...prev[currentEdit], response.data],
-                }));
-                alert('Item successfully added');
+                await api.post(endpoint, editData);
             } else {
                 await api.put(`${endpoint}/${editData.id}`, editData);
-                setData((prev) => ({
-                    ...prev,
-                    [currentEdit]: prev[currentEdit].map((item) =>
-                        item.id === editData.id ? editData : item
-                    ),
-                }));
-                alert('Changes successfully saved');
             }
+
+            const response = await api.get(endpoint);
+            setData((prev) => ({
+                ...prev,
+                [currentEdit]: response.data,
+            }));
+
+            alert(isAdding ? 'Элемент успешно добавлен' : 'Изменения успешно сохранены');
         } catch (err) {
-            alert('Failed to save changes');
+            alert('Не удалось сохранить изменения');
         } finally {
             setModalOpen(false);
         }
     };
 
-    if (loading) return <div className="admin-panel-container">Loading...</div>;
-    if (error) return <div className="admin-panel-container">Error: {error}</div>;
+    const getUserName = (userId) => {
+        const user = data.users.find((u) => u.id === userId);
+        return user ? user.name : 'Неизвестный пользователь';
+    };
+
+    const getSubscriptionTypeName = (subscriptionTypeId) => {
+        const type = data.subscriptionTypes.find((t) => t.id === subscriptionTypeId);
+        return type ? type.name : 'Неизвестный тип подписки';
+    };
+
+    const getSubscriptionDisplay = (subscription) => {
+        const userName = getUserName(subscription.user_id);
+        const subscriptionTypeName = getSubscriptionTypeName(subscription.subscription_type_id);
+        return `${userName} - ${subscriptionTypeName} (${subscription.status})`;
+    };
+
+    const renderSearchAndSelectField = (field, options) => {
+        const filteredOptions = options.filter((option) =>
+            option.name.toLowerCase().includes((editData[field] || '').toLowerCase())
+        );
+
+        return (
+            <div className="modal-select-container">
+                <input
+                    type="text"
+                    placeholder={`Введите или выберите ${
+                        field === 'course_id' ? 'курс' : 'значение'
+                    }`}
+                    value={editData[field] || ''}
+                    onChange={(e) => {
+                        const { value } = e.target;
+                        setEditData((prev) => ({
+                            ...prev,
+                            [field]: value,
+                        }));
+                    }}
+                    list={`list-${field}`}
+                    className="modal-input"
+                />
+                <datalist id={`list-${field}`}>
+                    {filteredOptions.map((option) => (
+                        <option key={option.id} value={option.name}>
+                            {option.name}
+                        </option>
+                    ))}
+                </datalist>
+            </div>
+        );
+    };
+
+    if (loading) return <div className="admin-panel-container">Загрузка...</div>;
+    if (error) return <div className="admin-panel-container">Ошибка: {error}</div>;
 
     return (
         <div className="admin-panel-container">
-            <h1>Admin Panel</h1>
-            <button
-                onClick={logout}
-                className="logout-button"
-            >
-                Выйти из аккаунта
-            </button>
+            <h1>Админ-панель</h1>
+            <button onClick={logout} className="logout-button">Выйти из аккаунта</button>
             {Object.entries(data).map(([key, items]) => (
                 <section key={key} className="admin-section">
-                    <h2>{key.charAt(0).toUpperCase() + key.slice(1)}</h2>
+                    <h2>
+                        {{
+                            users: 'Пользователи',
+                            courses: 'Курсы',
+                            articles: 'Статьи',
+                            subscriptions: 'Подписки',
+                            subscriptionTypes: 'Типы подписок',
+                        }[key]}
+                    </h2>
                     <button
                         className="admin-add-button"
                         onClick={() => handleAdd(key)}
                     >
-                        Add {key.slice(0, -1)}
+                        Добавить {{
+                            users: 'пользователя',
+                            courses: 'курс',
+                            articles: 'статью',
+                            subscriptions: 'подписку',
+                            subscriptionTypes: 'тип подписки',
+                        }[key]}
                     </button>
                     <ul className="admin-list">
                         {items.map((item) => (
                             <li key={item.id} className="admin-list-item">
                                 <span>
-                                    {Object.values(item).slice(0, 2).join(' - ')}
+                                    {{
+                                        users: item.name || item.email,
+                                        courses: item.title,
+                                        articles: `${getUserName(item.course_id)} - ${item.title}`,
+                                        subscriptions: getSubscriptionDisplay(item),
+                                        subscriptionTypes: item.name,
+                                    }[key] || 'Новый элемент'}
                                 </span>
                                 <div className="admin-buttons">
                                     <button
                                         className="admin-edit-button"
                                         onClick={() => handleEdit(key, item)}
                                     >
-                                        Edit
+                                        Редактировать
                                     </button>
                                     <button
                                         className="admin-delete-button"
                                         onClick={() => handleDelete(key, item.id)}
                                     >
-                                        Delete
+                                        Удалить
                                     </button>
                                 </div>
                             </li>
@@ -167,54 +263,58 @@ function AdminPanel() {
             ))}
 
             <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
-                <h2>{isAdding ? 'Add Item' : 'Edit Item'}</h2>
+                <h2>
+                    {isAdding
+                        ? `Добавить ${
+                              {
+                                  users: 'пользователя',
+                                  courses: 'курс',
+                                  articles: 'статью',
+                                  subscriptions: 'подписку',
+                                  subscriptionTypes: 'тип подписки',
+                              }[currentEdit]
+                          }`
+                        : `Редактировать ${
+                              {
+                                  users: 'пользователя',
+                                  courses: 'курс',
+                                  articles: 'статью',
+                                  subscriptions: 'подписку',
+                                  subscriptionTypes: 'тип подписки',
+                              }[currentEdit]
+                          }`}
+                </h2>
                 {editData &&
                     Object.keys(editData).map((field) => (
                         <label key={field} className="modal-input-label">
-                            {field}:
-                            {field === 'content' ? (
-                                <textarea
-                                    name={field}
-                                    value={editData[field]}
-                                    onChange={(e) => {
-                                        const { name, value } = e.target;
-                                        setEditData((prev) => ({
-                                            ...prev,
-                                            [name]: value,
-                                        }));
-                                    }}
-                                    className="modal-textarea"
-                                    rows="5"
-                                />
-                            ) : (
-                                <input
-                                    type={
-                                        typeof editData[field] === 'boolean'
-                                            ? 'checkbox'
-                                            : field.includes('date')
-                                            ? 'date'
-                                            : 'text'
-                                    }
-                                    name={field}
-                                    value={
-                                        typeof editData[field] === 'boolean' ? undefined : editData[field]
-                                    }
-                                    checked={
-                                        typeof editData[field] === 'boolean' ? editData[field] : undefined
-                                    }
-                                    onChange={(e) => {
-                                        const { name, value, type, checked } = e.target;
-                                        setEditData((prev) => ({
-                                            ...prev,
-                                            [name]: type === 'checkbox' ? checked : value,
-                                        }));
-                                    }}
-                                />
-                            )}
+                            {fieldTranslations[currentEdit]?.[field] || field}:
+                            {field === 'course_id'
+                                ? renderSearchAndSelectField(
+                                      field,
+                                      data.courses.map((c) => ({
+                                          id: c.id,
+                                          name: c.title,
+                                      }))
+                                  )
+                                : (
+                                    <input
+                                        type={field.includes('date') ? 'date' : 'text'}
+                                        name={field}
+                                        value={editData[field] || ''}
+                                        onChange={(e) => {
+                                            const { name, value } = e.target;
+                                            setEditData((prev) => ({
+                                                ...prev,
+                                                [name]: value,
+                                            }));
+                                        }}
+                                        className="modal-input"
+                                    />
+                                )}
                         </label>
                     ))}
                 <button className="modal-save-button" onClick={handleSave}>
-                    Save
+                    Сохранить
                 </button>
             </Modal>
         </div>

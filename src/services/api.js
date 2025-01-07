@@ -51,7 +51,7 @@ export const createCourse = (data) => {
         description: data.description,
         price: data.price,
         is_active: data.is_active,
-        is_subscription_based: data.is_subscription_based,
+        subscription_id: data.subscription_id, // Новое поле
     });
 };
 export const updateCourse = (id, data) => {
@@ -60,7 +60,7 @@ export const updateCourse = (id, data) => {
         description: data.description,
         price: data.price,
         is_active: data.is_active,
-        is_subscription_based: data.is_subscription_based,
+        subscription_id: data.subscription_id, // Новое поле
     });
 };
 export const deleteCourse = (id) => api.delete(`/courses/${id}`);

@@ -23,25 +23,25 @@ function AdminPanel() {
 
     const templates = {
         users: { name: '', email: '', password: '', is_active: true },
-        courses: { title: '', description: '', price: 0, is_active: true, subscription_type_name: '' },
+        courses: { title: '', description: '', price: 0, is_active: true, subscription_id: '' },
         articles: { course_id: '', title: '', content: '' },
         subscriptions: {
-            user_name: '',
-            subscription_type_name: '',
+            user_id: '',
+            subscription_id: '',
             start_date: '',
             end_date: '',
-            status: 'Active',
+            status: true,
         },
-        subscriptionTypes: { name: '', description: '', price: 0, is_active: false },
+        subscriptionTypes: { name: '', description: '', price: 0, is_active: true },
     };
 
     const fieldTranslations = {
         users: { name: 'Имя', email: 'Электронная почта', password: 'Пароль', is_active: 'Активен' },
-        courses: { title: 'Название', description: 'Описание', price: 'Цена', is_active: 'Активен', subscription_type_name: 'Тип подписки' },
+        courses: { title: 'Название', description: 'Описание', price: 'Цена', is_active: 'Активен', subscription_id: 'Тип подписки' },
         articles: { course_id: 'Курс', title: 'Название статьи', content: 'Содержание' },
         subscriptions: {
-            user_name: 'Пользователь',
-            subscription_type_name: 'Тип подписки',
+            user_id: 'Пользователь',
+            subscription_id: 'Тип подписки',
             start_date: 'Дата начала',
             end_date: 'Дата окончания',
             status: 'Статус',
@@ -66,7 +66,7 @@ function AdminPanel() {
 
                 const newData = responses.reduce((acc, res, idx) => {
                     const key = Object.keys(endpoints)[idx];
-                    acc[key] = res.data;
+                    acc[key] = responses[idx].data;
                     return acc;
                 }, {});
 
@@ -117,19 +117,6 @@ function AdminPanel() {
         try {
             const endpoint = endpoints[currentEdit];
 
-            if (currentEdit === 'subscriptions') {
-                const user = data.users.find((u) => u.name === editData.user_name);
-                const subscriptionType = data.subscriptionTypes.find(
-                    (s) => s.name === editData.subscription_type_name
-                );
-
-                if (user) editData.user_id = user.id;
-                if (subscriptionType) editData.subscription_type_id = subscriptionType.id;
-
-                delete editData.user_name;
-                delete editData.subscription_type_name;
-            }
-
             if (isAdding) {
                 await api.post(endpoint, editData);
             } else {
@@ -144,55 +131,37 @@ function AdminPanel() {
 
             alert(isAdding ? 'Элемент успешно добавлен' : 'Изменения успешно сохранены');
         } catch (err) {
-            alert('Не удалось сохранить изменения');
+            alert('Не удалось сохранить изменения.');
         } finally {
             setModalOpen(false);
         }
     };
 
-    const getUserName = (userId) => {
-        const user = data.users.find((u) => u.id === userId);
-        return user ? user.name : 'Неизвестный пользователь';
-    };
-
-    const getSubscriptionTypeName = (subscriptionTypeId) => {
-        const type = data.subscriptionTypes.find((t) => t.id === subscriptionTypeId);
-        return type ? type.name : 'Неизвестный тип подписки';
-    };
-
-    const getSubscriptionDisplay = (subscription) => {
-        const userName = getUserName(subscription.user_id);
-        const subscriptionTypeName = getSubscriptionTypeName(subscription.subscription_type_id);
-        return `${userName} - ${subscriptionTypeName} (${subscription.status})`;
-    };
-
-    const renderSearchAndSelectField = (field, options) => {
-        const filteredOptions = options.filter((option) =>
-            option.name.toLowerCase().includes((editData[field] || '').toLowerCase())
-        );
+    const renderSearchAndSelectField = (field, options, placeholder) => {
+        const selectedOption = options.find((option) => option.id === editData[field])?.name || options.find((option) => option.id === editData[field])?.title || '';
 
         return (
             <div className="modal-select-container">
                 <input
                     type="text"
-                    placeholder={`Введите или выберите ${
-                        field === 'course_id' ? 'курс' : 'значение'
-                    }`}
-                    value={editData[field] || ''}
+                    placeholder={placeholder}
+                    value={selectedOption}
                     onChange={(e) => {
-                        const { value } = e.target;
+                        const inputValue = e.target.value;
+                        const matchingOption = options.find((option) => option.name === inputValue || option.title === inputValue);
+
                         setEditData((prev) => ({
                             ...prev,
-                            [field]: value,
+                            [field]: matchingOption ? matchingOption.id : '',
                         }));
                     }}
                     list={`list-${field}`}
                     className="modal-input"
                 />
                 <datalist id={`list-${field}`}>
-                    {filteredOptions.map((option) => (
-                        <option key={option.id} value={option.name}>
-                            {option.name}
+                    {options.map((option) => (
+                        <option key={option.id} value={option.name || option.title}>
+                            {option.name || option.title}
                         </option>
                     ))}
                 </datalist>
@@ -237,8 +206,8 @@ function AdminPanel() {
                                     {{
                                         users: item.name || item.email,
                                         courses: item.title,
-                                        articles: `${getUserName(item.course_id)} - ${item.title}`,
-                                        subscriptions: getSubscriptionDisplay(item),
+                                        articles: `${item.course_id} - ${item.title}`,
+                                        subscriptions: `${item.user_id} - ${item.subscription_id}`,
                                         subscriptionTypes: item.name,
                                     }[key] || 'Новый элемент'}
                                 </span>
@@ -288,29 +257,73 @@ function AdminPanel() {
                     Object.keys(editData).map((field) => (
                         <label key={field} className="modal-input-label">
                             {fieldTranslations[currentEdit]?.[field] || field}:
-                            {field === 'course_id'
-                                ? renderSearchAndSelectField(
-                                      field,
-                                      data.courses.map((c) => ({
-                                          id: c.id,
-                                          name: c.title,
-                                      }))
-                                  )
-                                : (
-                                    <input
-                                        type={field.includes('date') ? 'date' : 'text'}
-                                        name={field}
-                                        value={editData[field] || ''}
-                                        onChange={(e) => {
-                                            const { name, value } = e.target;
-                                            setEditData((prev) => ({
-                                                ...prev,
-                                                [name]: value,
-                                            }));
-                                        }}
-                                        className="modal-input"
-                                    />
-                                )}
+                            {field === 'is_active' || field === 'status' ? (
+                                <input
+                                    type="checkbox"
+                                    checked={editData[field] || false}
+                                    onChange={(e) =>
+                                        setEditData((prev) => ({
+                                            ...prev,
+                                            [field]: e.target.checked,
+                                        }))
+                                    }
+                                    className="modal-checkbox"
+                                />
+                            ) : field === 'subscription_id' &&
+                              currentEdit === 'courses' ? (
+                                renderSearchAndSelectField(
+                                    field,
+                                    data.subscriptionTypes.map((s) => ({
+                                        id: s.id,
+                                        name: s.name,
+                                    })),
+                                    'Введите или выберите тип подписки'
+                                )
+                            ) : field === 'user_id' &&
+                              currentEdit === 'subscriptions' ? (
+                                renderSearchAndSelectField(
+                                    field,
+                                    data.users.map((u) => ({
+                                        id: u.id,
+                                        name: u.name,
+                                    })),
+                                    'Введите или выберите пользователя'
+                                )
+                            ) : field === 'subscription_id' &&
+                              currentEdit === 'subscriptions' ? (
+                                renderSearchAndSelectField(
+                                    field,
+                                    data.subscriptionTypes.map((s) => ({
+                                        id: s.id,
+                                        name: s.name,
+                                    })),
+                                    'Введите или выберите тип подписки'
+                                )
+                            ) : field === 'course_id' &&
+                              currentEdit === 'articles' ? (
+                                renderSearchAndSelectField(
+                                    field,
+                                    data.courses.map((c) => ({
+                                        id: c.id,
+                                        title: c.title,
+                                    })),
+                                    'Введите или выберите курс'
+                                )
+                            ) : (
+                                <input
+                                    type={field.includes('date') ? 'date' : 'text'}
+                                    name={field}
+                                    value={editData[field] || ''}
+                                    onChange={(e) => {
+                                        const { name, value } = e.target;
+                                        setEditData((prev) => ({
+                                            ...prev,
+                                            [name]: value,
+                                        }));
+                                    }}
+                                    className="modal-input"
+                                />
+                            )}
                         </label>
                     ))}
                 <button className="modal-save-button" onClick={handleSave}>

@@ -47,13 +47,20 @@ function Dashboard() {
             const userResponse = await api.get(`/usercus/${userId}`);
             const [subscriptionsResponse, purchasesResponse] = await Promise.all([
                 api.get(`/subscriptions/${userId}`),
-                api.get('/courses'),
+                api.get('/course-purchases'),
             ]);
 
             setUserData(userResponse.data);
             setEditedUserData({ name: userResponse.data.name, email: userResponse.data.email, password: '' });
             setSubscriptions(subscriptionsResponse.data);
-            setPurchases(purchasesResponse.data);
+            setPurchases(
+                purchasesResponse.data.filter((purchase) => {
+                    // Фильтруем курсы, приобретенные по активной подписке
+                    if (!purchase.subscription_id) return true; // Если курс куплен отдельно, оставляем
+                    const subscription = subscriptionsResponse.data.find((sub) => sub.id === purchase.subscription_id);
+                    return subscription && subscription.status === 'Active'; // Курс остается только при активной подписке
+                })
+            );
         } catch (err) {
             setError('Не удалось загрузить данные.');
         } finally {
@@ -105,7 +112,6 @@ function Dashboard() {
             </button>
             <h1>Личный кабинет</h1>
 
-
             <section className="user-info-section">
                 <h2>Информация о пользователе</h2>
                 <p><strong>Имя:</strong> {userData.name}</p>
@@ -123,7 +129,6 @@ function Dashboard() {
                     Выйти из аккаунта
                 </button>
             </section>
-
 
             <section className="subscriptions-section">
                 <h2>Ваши подписки</h2>
@@ -149,7 +154,6 @@ function Dashboard() {
                 )}
             </section>
 
-
             <section className="courses-section">
                 <h2>Ваши курсы</h2>
                 {purchases.length > 0 ? (
@@ -157,15 +161,11 @@ function Dashboard() {
                         {purchases.map((purchase) => (
                             <li key={purchase.id} className="course-item">
                                 <p><strong>Название курса:</strong> {purchase.title}</p>
-                                {purchase.course && (
-                                    <>
-                                        <p><strong>Описание:</strong> {purchase.description}</p>
-                                        <p>
-                                            <strong>Статус:</strong>
-                                            {purchase.is_active ? 'Активен' : 'Неактивен'}
-                                        </p>
-                                    </>
-                                )}
+                                <p><strong>Описание:</strong> {purchase.description}</p>
+                                <p>
+                                    <strong>Статус:</strong>
+                                    {purchase.is_active ? 'Активен' : 'Неактивен'}
+                                </p>
                                 <button
                                     onClick={() => navigate(`/courses/${purchase.id}`)}
                                     className="course-view-button"
@@ -179,7 +179,6 @@ function Dashboard() {
                     <p>Вы еще не приобрели ни одного курса.</p>
                 )}
             </section>
-
 
             <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)}>
                 <h2>Редактировать данные</h2>
